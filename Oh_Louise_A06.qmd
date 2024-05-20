@@ -15,51 +15,45 @@ execute:
 
 # Instructions
 
-1. **Write your name** on the assignment
+1.  **Write your name** on the assignment
 
-2. Write your code in the *Code* cells of the **template provided** to write solutions for the assignment. **Do not open a new qmd**, and work from scratch. Ensure that the solution is written neatly enough to understand and grade.
+2.  Write your code in the *Code* cells of the **template provided** to write solutions for the assignment. **Do not open a new qmd**, and work from scratch. Ensure that the solution is written neatly enough to understand and grade.
 
-3. You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity. Do not use AI to solve the problems.
+3.  You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity. Do not use AI to solve the problems.
 
-4. There are point deductions if your code is not clean and organized.
+4.  There are point deductions if your code is not clean and organized.
 
-5. Only print what is asked for. Highly inefficient code will be deducted for because it demonstrates lack of understanding.
+5.  Only print what is asked for. Highly inefficient code will be deducted for because it demonstrates lack of understanding.
 
-6. Render as an HTML and **submit BOTH the .qmd and HTML file**.
+6.  Render as an HTML and **submit BOTH the .qmd and HTML file**.
 
 The grader cannot grade what they cannot see! Failure to render your document after completing all questions will lead to deductions.
 
 ## Question 1 (5 points)
 
-Link your RStudio to your GitHub account and create a **public** repository where you will commit and push this assignment to. We will be following the instructions in [https://happygitwithr.com/](https://happygitwithr.com/) The chapters listed below are referring to this book.
-
+Link your RStudio to your GitHub account and create a **public** repository where you will commit and push this assignment to. We will be following the instructions in <https://happygitwithr.com/> The chapters listed below are referring to this book.
 
 Refer to the **instructions html** for this question! The instructions to setup GitHub are not included in this template to save space.
 
-
 To get full credit for this Question you must:
-  
-  - have a clickable link to your GitHub in the callout below
-  - have at least 5 **meaningful** commits pushed to GitHub. 
-  - have your GitHub up to date (ie: assignment is complete on GitHub).
-  - insert a screenshot of RStudio that shows the project and Git. See instructions html for what needs to be visible in the screenshot.
 
-::: {.callout-tip icon=false}
+-   have a clickable link to your GitHub in the callout below
+-   have at least 5 **meaningful** commits pushed to GitHub.
+-   have your GitHub up to date (ie: assignment is complete on GitHub).
+-   insert a screenshot of RStudio that shows the project and Git. See instructions html for what needs to be visible in the screenshot.
 
+::: {.callout-tip icon="false"}
 ## Github Repo Link
 
-[https://github.com/louiseoh2025/Oh_Louise_201_A06.git](https://github.com/louiseoh2025/Oh_Louise_201_A06.git)
-
+<https://github.com/louiseoh2025/Oh_Louise_201_A06.git>
 :::
 
-::: {.callout-tip icon=false}
-
+::: {.callout-tip icon="false"}
 ## Screenshot/image of RStudio
 
-![](filepath.png)
+![](screenshot.png)
 
 :::
-
 
 ## Question 2 (8 points)
 
@@ -93,18 +87,20 @@ player_info <- list(MJ = list(name = "Michael Jordan",
                               assists = 582))
 ```
 
-
 ### Part a (1 point)
 
 Extract the value `8162` (LeBron James points) in 2 different ways:
 
-- using indexing 
-- using names
+-   using indexing
+-   using names
 
 ```{r}
+# using indexing
+player_info[[2]][[4]]
 
+# using names
+player_info$LJ$points
 ```
-
 
 ### Part b (3 points)
 
@@ -113,15 +109,23 @@ Add a new named element to the end of each player's list called `height`. The he
 Print the `player_info` list to prove you were successful.
 
 ```{r}
+# list of heights
+heights <- c(MJ = 78, LJ = 81, KB = 78, KA = 86, SO = 85)
 
+# add height to each player
+for (player in names(player_info)) {
+  player_info[[player]]$height <- unname(heights[player])
+}
+
+# print updated player list
+print(player_info)
 ```
-
 
 ### Part c (3 points)
 
-Create a new list that contains elements corresponding to each player's `points_per_game`. 
+Create a new list that contains elements corresponding to each player's `points_per_game`.
 
-- `points_per_game = points/games_played`
+-   `points_per_game = points/games_played`
 
 Name each element with the respective player's initials.
 
@@ -132,9 +136,17 @@ Hint: initialize an empty list
 Note: this must still run correctly even if the values were to change or if another player were added to the list or if the player order changed.
 
 ```{r}
+# initialize an empty list for points per game
+points_per_game <- list()
 
+# calculate points per game for each player and add to list
+for (player in names(player_info)) {
+  points_per_game[[player]] <- player_info[[player]]$points / player_info[[player]]$games_played
+}
+
+# print points per game
+print(points_per_game)
 ```
-
 
 ### Part d (1 point)
 
@@ -143,9 +155,12 @@ Use the list created in Part c and an appropriate apply function to round each v
 Store the output as a vector and print the results.
 
 ```{r}
+# round each value to two decimal places
+points_per_game_rounded <- sapply(points_per_game, round, 2)
 
+# print rounded points per game
+print(points_per_game_rounded)
 ```
-
 
 ## Question 3 (3 points)
 
@@ -164,9 +179,24 @@ ie: 91 rounds to 90; 173 rounds to 200; 1450 rounds to 1000
 Hint: use `MARGIN = 1:2` to apply the function to each value instead of only a row/col.
 
 ```{r}
+# define a customized rounding function
+custom_round <- function(x) {
+  if (x < 100) {
+    return(round(x, -1)) # round to nearest tens
+  } else if (x < 1000) {
+    return(round(x, -2)) # round to nearest hundreds
+  } else {
+    return(round(x, -3)) # round to nearest thousands
+  }
+}
 
+# custom rounding function to each element of the matrix
+mat_rounded <- apply(mat_rand, MARGIN = 1:2, custom_round)
+
+# print matrices
+print(mat_rand) # original
+print(mat_rounded) # rounded
 ```
-
 
 ## Question 4 (9 points)
 
@@ -188,28 +218,41 @@ max_temps <- read_tsv("state_max_temps.tsv") |>
 Calculate the average temperature for each month across the whole data frame (using the data for all three states together).
 
 ```{r}
+# calculate average temperature for each month
+average_temps <- max_temps |>
+  select(-state, -year) |>
+  summarise(across(everything(), mean, na.rm = TRUE))
 
+print(average_temps)
 ```
-
 
 ### Part b (2 points)
 
 Create three new data frames by slicing the data by state.
 
-- Slice the data frame to only include the state of Colorado (CO).
-- Slice the data frame to only include the state of Ohio (OH).
-- Slice the data frame to only include the state of Virginia (VA).
+-   Slice the data frame to only include the state of Colorado (CO).
+-   Slice the data frame to only include the state of Ohio (OH).
+-   Slice the data frame to only include the state of Virginia (VA).
 
 No need to print any output here.
 
 ```{r}
+# slice to only include Colorado (CO)
+colorado_temps <- max_temps |> 
+  filter(state == "CO")
 
+# slice to only include Ohio (OH)
+ohio_temps <- max_temps |> 
+  filter(state == "OH")
+
+# slice to only include Virginia (VA)
+virginia_temps <- max_temps |> 
+  filter(state == "VA")
 ```
-
 
 ### Part c (5 points)
 
-Calculate the **median annual** temperature for your Colorado data set. 
+Calculate the **median annual** temperature for your Colorado data set.
 
 Use the `which.max()` and `which.min()` function to determine which year had the highest median temperature and which year had the lowest median temperature.
 
@@ -224,19 +267,48 @@ Example (this is NOT the answer just an example of what goes in the {}):
 Note: This code should still run successfully even if the numbers were to change.
 
 ```{r}
+# median annual temperature
+colorado_median_annual <- colorado_temps |>
+  group_by(year) |>
+  summarise(median_annual_temp = median(c_across(jan:dec), na.rm = TRUE))
 
+# max median temperature
+max_median_temp <- max(colorado_median_annual$median_annual_temp)
+max_median_year <- colorado_median_annual$year[
+  which.max(colorado_median_annual$median_annual_temp)
+  ]
+
+# min median temperature
+min_median_temp <- min(colorado_median_annual$median_annual_temp)
+min_median_year <- colorado_median_annual$year[
+  which.min(colorado_median_annual$median_annual_temp)
+  ]
+
+# print result
+print(paste0("The maximum median annual temperature of ", 
+             max_median_temp, " occurred in ", max_median_year, 
+             " and the minimum median annual temperature of ", 
+             min_median_temp, " occurred in ", min_median_year, "."))
 ```
-
 
 ## Question 5 (5 points)
 
-Write a recursive function that calculates the sum of the digits in a number. 
+Write a recursive function that calculates the sum of the digits in a number.
 
 Example: The number 312 would return 6 (3 + 1 + 2)
 
 Run your function with 935068.
 
 ```{r}
+# recursive function to calculate the sum of the digits in a number
+sum_of_digits <- function(n) {
+  if (n == 0) {
+    return(0)
+  } else {
+    return(n %% 10 + sum_of_digits(n %/% 10))
+  }
+}
 
+# run the function with 935068
+sum_of_digits(935068) # output should be 31
 ```
-
