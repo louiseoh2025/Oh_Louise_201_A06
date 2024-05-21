@@ -193,9 +193,8 @@ custom_round <- function(x) {
 # custom rounding function to each element of the matrix
 mat_rounded <- apply(mat_rand, MARGIN = 1:2, custom_round)
 
-# print matrices
-print(mat_rand) # original
-print(mat_rounded) # rounded
+# print rounded matrix
+print(mat_rounded)
 ```
 
 ## Question 4 (9 points)
@@ -301,11 +300,11 @@ Run your function with 935068.
 
 ```{r}
 # recursive function to calculate the sum of the digits in a number
-sum_of_digits <- function(n) {
-  if (n == 0) {
+sum_of_digits <- function(x) {
+  if (x == 0) {
     return(0)
   } else {
-    return(n %% 10 + sum_of_digits(n %/% 10))
+    return(x %% 10 + sum_of_digits(x %/% 10))
   }
 }
 
