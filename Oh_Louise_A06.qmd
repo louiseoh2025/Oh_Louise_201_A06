@@ -222,6 +222,7 @@ average_temps <- max_temps |>
   select(-state, -year) |>
   summarise(across(everything(), mean, na.rm = TRUE))
 
+# print the calculated temperatures
 print(average_temps)
 ```
 
